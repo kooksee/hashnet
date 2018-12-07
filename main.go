@@ -35,7 +35,6 @@ func main() {
 
 	// Create & start node
 	rootCmd.AddCommand(commands.NewRunNodeCmd(func(config *config.Config, logger log.Logger) (i *node.Node, e error) {
-		// Generate node PrivKey
 		nodeKey, err := p2p.LoadOrGenNodeKey(config.NodeKeyFile())
 		if err != nil {
 			return nil, err

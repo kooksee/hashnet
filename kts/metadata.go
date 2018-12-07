@@ -7,12 +7,10 @@ import (
 )
 
 type Metadata struct {
-	Body    []byte `json:"body,omitempty"`
-	Created int64  `json:"created,omitempty"`
-	Address []byte `json:"address,omitempty"`
-	Type    []byte `json:"type,omitempty"`
-	License []byte `json:"license,omitempty"`
-	Tag     []byte `json:"category,omitempty"`
+	Body    []byte   `json:"body,omitempty"`
+	Created int64    `json:"created,omitempty"`
+	Type    []byte   `json:"type,omitempty"`
+	Tags    [][]byte `json:"tags,omitempty"`
 }
 
 func (t *Metadata) Encode() ([]byte, error) {
