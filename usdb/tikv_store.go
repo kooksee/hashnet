@@ -119,17 +119,6 @@ func (db *TikvStore) Print() {
 
 // Implements DB.
 func (db *TikvStore) Stats() map[string]string {
-	//keys := []string{
-	//	"leveldb.num-files-at-level{n}",
-	//	"leveldb.stats",
-	//	"leveldb.sstables",
-	//	"leveldb.blockpool",
-	//	"leveldb.cachedblock",
-	//	"leveldb.openedtables",
-	//	"leveldb.alivesnaps",
-	//	"leveldb.aliveiters",
-	//}
-
 	return make(map[string]string)
 }
 
@@ -180,14 +169,14 @@ func (m *tikvStoreBatch) WriteSync() {
 
 // Implements DB.
 func (db *TikvStore) Iterator(start, end []byte) db.Iterator {
-	it, err := db.getSnapshot().Seek(db.withPrefix(start))
+	it, err := db.getSnapshot().Iter(db.withPrefix(start),nil)
 	cmn.MustNotErr("TikvStore Iterator Error", err)
 	return newTikvStoreIterator(db.name, false, it, db.withPrefix(start), db.withPrefix(end))
 }
 
 // Implements DB.
 func (db *TikvStore) ReverseIterator(start, end []byte) db.Iterator {
-	it, err := db.getSnapshot().SeekReverse(db.withPrefix(start))
+	it, err := db.getSnapshot().IterReverse(db.withPrefix(start))
 	cmn.MustNotErr("TikvStore ReverseIterator Error", err)
 	return newTikvStoreIterator(db.name, true, it, db.withPrefix(start), db.withPrefix(end))
 }

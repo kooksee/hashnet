@@ -5,7 +5,6 @@ import (
 	"github.com/allegro/bigcache"
 	"github.com/kooksee/hashnet/cmn"
 	"github.com/pingcap/tidb/store/tikv"
-	"github.com/tendermint/tendermint/libs/log"
 	"os"
 	"time"
 )
@@ -14,12 +13,12 @@ var Name = "txs"
 
 var tdb *TikvStore
 
-func Init(logger log.Logger) {
+func Init() {
 	tikv.MaxConnectionCount = 256
 
-	url := os.Getenv("TIKV")
+	url := os.Getenv("tikv_url")
 	if url == "" {
-		panic("please init tikv url")
+		panic("please init tikv")
 	}
 
 	store, err := tikv.Driver{}.Open(fmt.Sprintf("tikv://%s/pd", url))

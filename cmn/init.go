@@ -1,9 +1,7 @@
 package cmn
 
 import (
-	"fmt"
 	"github.com/kooksee/cmn"
-	"github.com/kooksee/kdb"
 	"github.com/tendermint/tendermint/config"
 	"github.com/tendermint/tendermint/libs/log"
 	"golang.org/x/crypto/ripemd160"
@@ -38,12 +36,6 @@ func InitCfg(cfg1 *config.Config) {
 	cfg = cfg1
 }
 
-func InitAppDb(path string) {
-	cfg := kdb.DefaultConfig()
-	cfg.DbPath = path
-	cfg.InitKdb()
-}
-
 func GetCfg() *config.Config {
 	if cfg == nil {
 		panic("please init config")
@@ -55,13 +47,4 @@ func Ripemd160(bytes []byte) []byte {
 	h := ripemd160.New()
 	h.Write(bytes)
 	return h.Sum(nil)
-}
-
-var maxMsgSize = 1024 * 1024
-
-func CheckMsgSize(txBytes []byte) error {
-	if len(txBytes) > maxMsgSize {
-		return fmt.Errorf("msg size exceeds max size (%d > %d)", len(txBytes), maxMsgSize)
-	}
-	return nil
 }
